@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+</head>
+<body>
+
+<h2>Student Form</h2>
+
+<!-- Form to Add or Update Student -->
+<form action="student.php" method="POST">
+    <input type="hidden" name="id" value="">
+    <label for="name">Name:</label>
+    <input type="text" name="name" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" required><br><br>
+
+    <label for="age">Age:</label>
+    <input type="number" name="age" required><br><br>
+
+    <input type="submit" name="save" value="Save">
+</form>
+
+<h3>Student List</h3>
+
+<!-- List of Students -->
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Actions</th>
+    </tr>
+    <?php
+    // Include the PHP file that fetches the student list
+    include 'student.php';
+    $students = fetchAllStudents();
+
+    foreach ($students as $student) {
+        echo "
+        <tr>
+            <td>{$student['id']}</td>
+            <td>{$student['name']}</td>
+            <td>{$student['email']}</td>
+            <td>{$student['age']}</td>
+            <td>
+                <form style='display:inline;' action='student.php' method='POST'>
+                    <input type='hidden' name='id' value='{$student['id']}'>
+                    <input type='submit' name='edit' value='Edit'>
+                </form>
+
+                <form style='display:inline;' action='student.php' method='POST'>
+                    <input type='hidden' name='id' value='{$student['id']}'>
+                    <input type='submit' name='delete' value='Delete'>
+                </form>
+            </td>
+        </tr>";
+    }
+    ?>
+</table>
+
+</body>
+</html>
